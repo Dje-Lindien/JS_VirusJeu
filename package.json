@@ -4,9 +4,8 @@
   "description": "Wesh alors :)",
   "main": "js.js",
   "scripts": {
-    "sass" : "sass --watch ./main.scss:./style.css"
+    "sass": "sass --watch ./main.scss:./style.css"
   },
-    
   "repository": {
     "type": "git",
     "url": "git+https://github.com/KobeKenjo/basic_project_file.git"
@@ -16,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/KobeKenjo/basic_project_file/issues"
   },
-  "homepage": "https://github.com/KobeKenjo/basic_project_file#readme"
+  "homepage": "https://github.com/KobeKenjo/basic_project_file#readme",
+  "dependencies": {
+    "sass": "^1.35.2"
+  }
 }
