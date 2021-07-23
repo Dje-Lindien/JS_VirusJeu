@@ -3,9 +3,58 @@ const score = document.getElementById('score');
 const days = document.getElementById('days');
 const endScreen = document.getElementById('endScreen');
 
+daysLeft = 60;
+gameOverNumber = 50;
+loopPlay = false;
 
 
-virusPop();
+function start() {
+    count = 0;
+    getFaster = 6000;
+    daysRemaining = daysLeft;
+
+    canvas.innerHTML = '';
+    score.innerHTML = count;
+    days.innerHTML = daysRemaining;
+
+
+    // Make sure to not loop several times
+    // "loopPlay si tu es = à true tu ne fais rien, SINON tu me lances la fonction game"
+    loopPlay ? '' : game();
+    loopPlay = true;
+
+    function game() {
+        let randomTime = Math.round(Math.random() * getFaster);
+        getFaster > 700 ? getFaster = (getFaster * 0.90) : '';
+
+
+        setTimeout(() => {
+            if (daysRemaining === 0) {
+                youWin();
+            } else if (canvas.childElementCount < gameOverNumber) {
+                virusPop();
+                game();
+            } else {
+                gameOver();
+            }
+        }, randomTime);
+    };
+
+    const gameOver = () => {
+        endScreen.innerHTML = `<div class="gameOver">Game over <br/>score : ${count}</div>`;
+        endScreen.style.visibility = 'visible';
+        endScreen.style.opacity = '1';
+        loopPlay = false;
+    };
+
+    const youWin = () => {
+        let accuracy = Math.round(count / daysLeft * 100);
+        endScreen.innerHTML = `<div class="youWin"> bravo ! tu as atomisé cette merde<br/><span>précision : ${accuracy}%</span></div>`;
+        endScreen.style.visibility = 'visible';
+        endScreen.style.opacity = '1';
+        loopPlay = false;
+    };
+};
 
 
 function virusPop() {
@@ -32,5 +81,28 @@ function virusPop() {
 }
 // remove element clicked -- function(e)-> element
 document.addEventListener('click', function(e) {
-    let targetElement = e.target || e.src
-})
+    let targetElement = e.target || e.srcElement;
+
+    if (targetElement.classList.contains('virus')) {
+        targetElement.remove();
+        count++;
+        score.innerHTML = count;
+    };
+});
+// countdown click
+canvas.addEventListener('click', () => {
+    if (daysRemaining > 0) {
+        daysRemaining--;
+        days.innerHTML = daysRemaining;
+    }
+});
+
+//hide screen on click
+endScreen.addEventListener('click', () => {
+    setTimeout(() => {
+        start();
+        endScreen.style.opacity = '0';
+        endScreen.style.visibility = 'hidden';
+    }, 3500)
+    
+});
